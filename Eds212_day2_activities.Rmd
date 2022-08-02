@@ -11,10 +11,12 @@ library(palmerpenguins)
 library(tidyverse)
 ```
 
+
+GitHub reminder! do this in the console not here
 ```{r}
 #----tell git to make a repository for this
-usethis::use_git()
-usethis::use_github
+#usethis::use_git()
+#usethis::use_github
 ```
 
 Derive f(x)=x^2 and evaluate slope at x=3
