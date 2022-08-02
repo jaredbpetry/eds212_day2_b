@@ -370,7 +370,116 @@ pre code {
 </div>
 
 
-
+<pre class="r"><code>#----tell git to make a repository for this
+usethis::use_git()</code></pre>
+<pre><code>## ✔ Setting active project to &#39;/Users/jaredpetry/Documents/MEDS/eds212/
+## eds212_day2_b&#39;</code></pre>
+<pre class="r"><code>usethis::use_github</code></pre>
+<pre><code>## function (organisation = NULL, private = FALSE, visibility = c(&quot;public&quot;, 
+##     &quot;private&quot;, &quot;internal&quot;), protocol = git_protocol(), host = NULL, 
+##     auth_token = deprecated(), credentials = deprecated()) 
+## {
+##     if (lifecycle::is_present(auth_token)) {
+##         deprecate_warn_auth_token(&quot;use_github&quot;)
+##     }
+##     if (lifecycle::is_present(credentials)) {
+##         deprecate_warn_credentials(&quot;use_github&quot;)
+##     }
+##     visibility_specified &lt;- !missing(visibility)
+##     visibility &lt;- match.arg(visibility)
+##     check_protocol(protocol)
+##     check_uses_git()
+##     default_branch &lt;- git_default_branch()
+##     check_current_branch(is = default_branch, &quot;Must be on the default branch ({ui_value(is)}), not {ui_value(gb)}.&quot;)
+##     challenge_uncommitted_changes(msg = &quot;\n    There are uncommitted changes and we&#39;re about to create and push to a new \\\n    GitHub repo&quot;)
+##     check_no_origin()
+##     if (is.null(organisation)) {
+##         if (visibility_specified) {
+##             ui_stop(&quot;\n        The {ui_code(&#39;visibility&#39;)} setting is only relevant for\n        organisation-owned repos, within the context of certain \\\n        GitHub Enterprise products.&quot;)
+##         }
+##         visibility &lt;- if (private) 
+##             &quot;private&quot;
+##         else &quot;public&quot;
+##     }
+##     if (!is.null(organisation) &amp;&amp; !visibility_specified) {
+##         visibility &lt;- if (private) 
+##             &quot;private&quot;
+##         else &quot;public&quot;
+##     }
+##     whoami &lt;- suppressMessages(gh::gh_whoami(.api_url = host))
+##     if (is.null(whoami)) {
+##         ui_stop(&quot;\n      Unable to discover a GitHub personal access token\n      A token is required in order to create and push to a new repo\n\n      Call {ui_code(&#39;gh_token_help()&#39;)} for help configuring a token&quot;)
+##     }
+##     empirical_host &lt;- parse_github_remotes(glue(&quot;{whoami$html_url}/REPO&quot;))$host
+##     if (empirical_host != &quot;github.com&quot;) {
+##         ui_info(&quot;Targeting the GitHub host {ui_value(empirical_host)}&quot;)
+##     }
+##     owner &lt;- organisation %||% whoami$login
+##     repo_name &lt;- project_name()
+##     check_no_github_repo(owner, repo_name, host)
+##     repo_desc &lt;- if (is_package()) 
+##         package_data()$Title %||% &quot;&quot;
+##     else &quot;&quot;
+##     repo_desc &lt;- gsub(&quot;\n&quot;, &quot; &quot;, repo_desc)
+##     repo_spec &lt;- glue(&quot;{owner}/{repo_name}&quot;)
+##     visibility_string &lt;- if (visibility == &quot;public&quot;) 
+##         &quot;&quot;
+##     else glue(&quot;{visibility} &quot;)
+##     ui_done(&quot;Creating {visibility_string}GitHub repository {ui_value(repo_spec)}&quot;)
+##     if (is.null(organisation)) {
+##         create &lt;- gh::gh(&quot;POST /user/repos&quot;, name = repo_name, 
+##             description = repo_desc, private = private, .api_url = host)
+##     }
+##     else {
+##         create &lt;- gh::gh(&quot;POST /orgs/{org}/repos&quot;, org = organisation, 
+##             name = repo_name, description = repo_desc, visibility = visibility, 
+##             .accept = &quot;application/vnd.github.nebula-preview+json&quot;, 
+##             .api_url = host)
+##     }
+##     origin_url &lt;- switch(protocol, https = create$clone_url, 
+##         ssh = create$ssh_url)
+##     withr::defer(view_url(create$html_url))
+##     ui_done(&quot;Setting remote {ui_value(&#39;origin&#39;)} to {ui_value(origin_url)}&quot;)
+##     use_git_remote(&quot;origin&quot;, origin_url)
+##     if (is_package()) {
+##         tryCatch(use_github_links(), error = function(e) NULL)
+##     }
+##     repo &lt;- git_repo()
+##     remref &lt;- glue(&quot;origin/{default_branch}&quot;)
+##     ui_done(&quot;\n    Pushing {ui_value(default_branch)} branch to GitHub and setting \\\n    {ui_value(remref)} as upstream branch&quot;)
+##     gert::git_push(remote = &quot;origin&quot;, set_upstream = TRUE, repo = repo, 
+##         verbose = FALSE)
+##     gbl &lt;- gert::git_branch_list(local = TRUE, repo = repo)
+##     if (nrow(gbl) &gt; 1) {
+##         ui_done(&quot;\n      Setting {ui_value(default_branch)} as default branch on GitHub&quot;)
+##         gh::gh(&quot;PATCH /repos/{owner}/{repo}&quot;, owner = owner, 
+##             repo = repo_name, default_branch = default_branch, 
+##             .api_url = host)
+##     }
+##     invisible()
+## }
+## &lt;bytecode: 0x119ba0260&gt;
+## &lt;environment: namespace:usethis&gt;</code></pre>
+<p>Derive f(x)=x^2 and evaluate slope at x=3</p>
+<pre class="r"><code>func1 &lt;- expression(x^2)
+my_deriv &lt;- D(func1, &quot;x&quot;)
+my_deriv</code></pre>
+<pre><code>## 2 * x</code></pre>
+<pre class="r"><code>x &lt;- 3
+eval(my_deriv)</code></pre>
+<pre><code>## [1] 6</code></pre>
+<p>Now derive P(a)=2(3a+2)^4−5 and find slope at a=1.2</p>
+<pre class="r"><code>func2 &lt;- expression(2*(3*a+2)^4 - 5)
+my_deriv2 &lt;- D(func2, &quot;a&quot;)
+a &lt;- 1.2
+eval(my_deriv2)</code></pre>
+<pre><code>## [1] 4214.784</code></pre>
+<p>Same thing with g(t)</p>
+<pre class="r"><code>func3 &lt;- expression((-4*t)/((t^2 +1)^3))
+my_deriv3 &lt;- D(func3 , &quot;t&quot;)
+t &lt;- 0
+eval(func3)</code></pre>
+<pre><code>## [1] 0</code></pre>
 
 
 

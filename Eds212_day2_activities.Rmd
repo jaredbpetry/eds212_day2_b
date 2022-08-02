@@ -11,3 +11,34 @@ library(palmerpenguins)
 library(tidyverse)
 ```
 
+```{r}
+#----tell git to make a repository for this
+usethis::use_git()
+usethis::use_github
+```
+
+Derive f(x)=x^2 and evaluate slope at x=3
+```{r}
+func1 <- expression(x^2)
+my_deriv <- D(func1, "x")
+my_deriv
+x <- 3
+eval(my_deriv)
+```
+
+Now derive P(a)=2(3a+2)^4−5 and find slope at a=1.2
+```{r}
+func2 <- expression(2*(3*a+2)^4 - 5)
+my_deriv2 <- D(func2, "a")
+a <- 1.2
+eval(my_deriv2)
+```
+
+Same thing with g(t)
+```{r}
+func3 <- expression((-4*t)/((t^2 +1)^3))
+my_deriv3 <- D(func3 , "t")
+t <- 0
+eval(func3)
+```
+
