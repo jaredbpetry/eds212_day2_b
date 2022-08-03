@@ -7,6 +7,7 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+#install.packages("palmerpenguins")
 library(palmerpenguins)
 library(tidyverse)
 ```
@@ -44,4 +45,26 @@ t <- 0
 eval(func3)
 ```
 
-lets see what happens when I "pull"
+
+Make a penguin plot bill length vs. bill depth 
+```{r}
+ggplot(data=penguins, aes(x=bill_depth_mm, y=bill_length_mm )) +
+  geom_point(aes(color=species))
+```
+
+```{r}
+ggplot(data=penguins, aes(x=species, y=flipper_length_mm))+
+  geom_jitter()+
+  labs(x="species", y="flipper length", title= "Flipper Length by Species")
+```
+
+ggplot(data = penguins, aes(x = body_mass_g, y = flipper_length_mm)) +
+  geom_point(aes(color = species), size=1) +
+  facet_wrap(~island) +
+  theme_minimal() +
+  labs(x="Body Mass (g)", y="Flipper Length (mm)", title = "Cute Fluffy Penguins")
+  
+```{r}
+
+```
+
